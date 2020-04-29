@@ -6,13 +6,13 @@ from E import *
 from angles import *
 from optimizing_functions import *
 
-def sequencial_minimizer(func, param1, Iter, layers, N, J, h, PBC , p, opt_param):
+def sequencial_minimizer(func, param1, Iter,N , layers, J, h, PBC , p, opt_param, epsilon):
     xmin = -np.ones(1)*np.pi*2
     xmax = np.ones(1)*np.pi*2
     bounds = [(low, high) for low, high in zip(xmin, xmax)]
 
     energy_callbacks = []
-    energy_callbacks = [0,func(param1,layers,N,J,h,PBC,p,opt_param)]
+    energy_callbacks = [0,func(param1,N,layers,J,h,PBC,p,opt_param,epsilon)]
 
     term = func.__name__
 
@@ -40,20 +40,20 @@ def sequencial_minimizer(func, param1, Iter, layers, N, J, h, PBC , p, opt_param
         for a in range(len(param1)):
             x = param1[a]
 #            print('a={}\x09param = {}\x09x = {}'.format(a,param1,x))
-            def wrapper(x,layers,N,J,h,PBC,p,opt_param):
+            def wrapper(x,N,layers,J,h,PBC,p,opt_param,epsilon):
                 my_array = []
                 my_array = np.array(list(param_full_callbacks[1][:a])+list(x)+list(param_full_callbacks[1][a+1:]))
 #                print('my_array = ',repr(my_array))
 #                print('eval(term)(my_array) = ', eval(term)(my_array,layers,N,J,h,PBC,p))
-                return(eval(term)(my_array,layers,N,J,h,PBC,p,opt_param))
+                return(eval(term)(my_array,N,layers,J,h,PBC,p,opt_param,epsilon))
 #            printing(x,param_full_callbacks[1],energy_callbacks,False)
-            ret = minimize(wrapper,x,args=(layers,N,J,h,PBC,p,opt_param),method='COBYLA',jac=None, bounds=None, tol=None, callback=None,options={'maxiter': 10})
+            ret = minimize(wrapper,x,args=(N,layers,J,h,PBC,p,opt_param,epsilon),method='COBYLA',jac=None, bounds=None, tol=None, callback=None,options={'maxiter': 10})
             res = [[ret.x],ret.fun]
 #            print('RES ->',res)
 #            print('energy_callbacks ->',energy_callbacks)
 #            print('wrapper ->',wrapper(res[0],layers,N,J,h,PBC,p))
 #             res = optimizer1.optimize(objective_function=wrapper,initial_point=x,num_vars= len(x))
-            if wrapper(res[0],layers,N,J,h,PBC,p,opt_param) < energy_callbacks[1]:
+            if wrapper(res[0],N,layers,J,h,PBC,p,opt_param,epsilon) < energy_callbacks[1]:
                 energy_callbacks[0] = energy_callbacks[1]
                 energy_callbacks[1] = res[1]
                 param_callbacks[0] = param_callbacks[1]
