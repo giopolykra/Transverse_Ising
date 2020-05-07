@@ -5,7 +5,7 @@ The structure of the code is as follows:
 <ul>
   <li>In the file "E.py " the is the definition of the Heisenberg Hamiltonian and the momentum operator. 
 </li>
-  <li>The "matrix_plot.py" can by used to create 2d plots from the matrices in "E.py".
+  <li>The "matrix_plot.py" can by used to create 2d plots from the matrices in "E.py" as well a scatter plot of momenta vs Energy of the excited states.
 </li>
   <li>The "circuit.py" has definitions of the circuits that can be used for the computations.
 </li>
@@ -22,6 +22,22 @@ The structure of the code is as follows:
   <li>The "main.py" is the central file through which the user may interact. 
 </li>
   <li>The resulting plots and data are created in the /trial folder.
+</li>
+</ul>
+
+# Dependencies
+<ul>
+  <li>Qiskit
+</li>
+  <li>scipy
+</li>
+  <li>sys
+</li>
+  <li>matplotlib
+</li>
+  <li>numpy
+</li>
+  <li>pathlib
 </li>
 </ul>
 
